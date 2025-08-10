@@ -29,8 +29,8 @@ SESSION_ID = "session_1"
 
 chat_history = MongoDBChatMessageHistory(
     connection_string = CONNECTION_STRING,
-    database = DATABASE_NAME,
-    collection = COLLECTION_NAME,
+    database_name = DATABASE_NAME,
+    collection_name = COLLECTION_NAME,
     session_id = SESSION_ID,
     create_index=True,
 )
