@@ -13,7 +13,7 @@ tool_list  =[
     agent.suricata_tool,
     agent.report_anomaly_tool,
     agent.report_error_tool,
-    agent.update_suricata_tool,
+    agent.update_suricata_rule_tool,
 ]
 
 def init():
@@ -55,7 +55,7 @@ def call_gemini(query: str):
 def chat():
     start=time.time()
     user_input = input("read the suricata log file and check for any anomaly or error, if you find the need to update the suricata rules then update it, and create a report of this. Only read the new log, do not read alread read ones, are you clear about this? then it is okay")
-    while :
+    while True:
         response = call_gemini(user_input)
         print(f"Response: {response}")
         time.wait(1000*60*5)
