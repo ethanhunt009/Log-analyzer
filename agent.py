@@ -17,7 +17,7 @@ import paramiko
 def read_suricata_log():
     """Read the suricata log file"""
     try:
-        with open("log.txt", 'r') as file:
+        with open("", 'r') as file:
             content = file.read()
     except FileNotFoundError:
         content = "Log file not found."

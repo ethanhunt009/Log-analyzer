@@ -23,8 +23,8 @@ def init():
 
 
 CONNECTION_STRING = "mongodb://localhost:27017"
-DATABASE_NAME = "LOG"
-COLLECTION_NAME = "LOGGING"
+DATABASE_NAME = "chathistory"
+COLLECTION_NAME = "chat"
 SESSION_ID = "session_1"
 
 chat_history = MongoDBChatMessageHistory(
@@ -54,11 +54,11 @@ def call_gemini(query: str):
     
 def chat():
     start=time.time()
-    user_input = input("Enter your query: ")
-    while user_input.lower() != "exit":
+    user_input = input("read the suricata log file and check for any anomaly or error, if you find the need to update the suricata rules then update it, and create a report of this. Only read the new log, do not read alread read ones, are you clear about this? then it is okay")
+    while :
         response = call_gemini(user_input)
         print(f"Response: {response}")
-        user_input = input("Enter your query: ")
+        time.wait(1000*60*5)
         end = time.time() 
         print(f"Time taken: {end - start} seconds")
         
