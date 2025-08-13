@@ -10,6 +10,7 @@ import agent
 from langchain.agents import initialize_agent, AgentType
 
 tool_list  =[
+    agent.command_executor_tool,
     agent.suricata_tool,
     agent.report_anomaly_tool,
     agent.report_error_tool,
@@ -44,6 +45,16 @@ gemini_agent = initialize_agent(
 )
 
 
+thought_reader = initialize_agent(
+    tools = tool_list,
+    llm = ChatAnthropic(
+        model = "claude-3", 
+        temparature = 0.8,
+    )
+)
+
+
+
 def call_gemini(query: str):
     """Call the Gemini agent with a query"""
     try:
@@ -53,13 +64,19 @@ def call_gemini(query: str):
         return f"An error occurred: {str(e)}"
     
 def chat():
-    start=time.time()
-    user_input = input("read the suricata log file and check for any anomaly or error, if you find the need to update the suricata rules then update it, and create a report of this. Only read the new log, do not read alread read ones, are you clear about this? then it is okay")
-    while True:
-        response = call_gemini(user_input)
-        print(f"Response: {response}")
-        time.wait(1000*60*5)
-        end = time.time() 
-        print(f"Time taken: {end - start} seconds")
-        
+    try:
+        start=time.time()
+        user_input = input("read the suricata log file and check for any anomaly or error, if you find the need to update the suricata rules then update it, and create a report of this. Only read the new log, do not read alread read ones, are you clear about this? then it is okay")
+        while True:
+            chat_history.add_user_message(user_input)
+            response = call_gemini(chat_history)
+            print(f"Response: {response}")
+            
+            chat_history.add_ai_message(response)
+            user_input = input("user:  ")
+            #time.wait(1000*60*5)
+            end = time.time() 
+            print(f"Time taken: {end - start} seconds")
+    except KeyboardInterrupt:
+        print("\nExiting chat. Goodbye!")
 chat()
